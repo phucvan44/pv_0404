@@ -26,7 +26,9 @@ def find_id_date(cur):
         if temp.day == cur[0] and temp.month == cur[1] and temp.year == cur[2]:
             return i
 list_check = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
+print("Nhập thứ ngày tháng năm: ",end="")
 s = str(input())
+print("Nhập số ngày cần xem: ",end="")
 n = int(input())
 s = s.split(" ")
 today = s[0]

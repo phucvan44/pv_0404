@@ -1,3 +1,4 @@
+print("Nhập số n: ",end="")
 n = int(input())
 
 def is_prime(n):
