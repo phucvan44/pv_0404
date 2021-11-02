@@ -59,9 +59,11 @@ nguyen van e
 1900
 dev
 2010
-2
+4
 dev 
 math
+code
+test
 2
 python 
 c++
@@ -77,10 +79,13 @@ nguyen van f
 1990
 dev
 2010
-3
+6
 dev 
 math
 a
+b
+c
+d
 2
 python 
 c++
