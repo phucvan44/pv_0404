@@ -14,7 +14,6 @@ class Learn_Employee:
 
 	def get_employee(self, id):
 		employee = self.list_employee[id]
-		
 		print("-"*50)
 		print(f"""
 \t Nhân viên thứ: {id + 1}
@@ -30,20 +29,20 @@ class Learn_Employee:
 	def query(self, employee1, employee2):
 		if len(employee1.skill) == len(employee2.skill):
 			if employee1.exp == employee2.exp:
-				return employee1.name.lower() < employee2.name.lower()
-			return employee1.exp > employee2.exp 
-		return len(employee1.skill) > len(employee2.skill)
+				return employee1.name.lower() > employee2.name.lower()
+			return employee1.exp < employee2.exp 
+		return len(employee1.skill) < len(employee2.skill)
 	
 	def get_employee_for_learn(self):
 
-		employees = self.list_employee
-
+		employees = self.list_employee.copy()
+		
 		# Bubble sort
 		for i in range(len(employees)):
 			for j in range(len(employees)-1, i, -1):
 				if self.query(employees[i], employees[j]):
 					employees[i], employees[j] = employees[j], employees[i]
-		
+
 		for i in range(min(3, len(employees))):
 			self.get_employee(employees[i].id)
 
@@ -154,6 +153,7 @@ def control(learn_emp, project_emp):
 	elif n == 5:
 		project_emp.get_employee_exp()
 		control(learn_emp, project_emp)
+	
 
 if __name__ == "__main__":
 	learn_emp = Learn_Employee() # Employee for learn
