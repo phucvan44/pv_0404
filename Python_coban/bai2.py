@@ -1,4 +1,3 @@
-
 def gcd(a,b):
     if b==0:
         return a
@@ -17,3 +16,4 @@ if __name__ == "__main__":
     m = int(input())
 
     print(int(lcm(n,m)))
+    

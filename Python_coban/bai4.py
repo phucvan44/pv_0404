@@ -6,6 +6,7 @@ class date:
         self.status = status 
         self.next = None
 
+
 def get_list_key():
     f = open("kyhieu.txt", "r") # file input
     list_key = {}
@@ -69,5 +70,3 @@ if __name__ == "__main__":
 
         ans += day_ans.day + "/" + day_ans.month + "/" + day_ans.year + ": " + day_ans.status
         print(ans)
-
-

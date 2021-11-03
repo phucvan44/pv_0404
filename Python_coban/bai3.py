@@ -6,3 +6,4 @@ if __name__ == "__main__":
 
     for i in range(n):
         print(" "*i + "*"*(lim-i*2) + " "*i)
+        
