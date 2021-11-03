@@ -15,6 +15,7 @@ def get_list_key():
     f.close()
     return list_key
 
+
 def get_list_date():
     f = open("dubaothoitiet.txt","r")
     list_date = []
@@ -27,11 +28,13 @@ def get_list_date():
     f.close()
     return list_date
 
+
 def find_id_date(cur):
     for i in range(len(list_date)):
         temp = list_date[i]
         if temp.day == cur[0] and temp.month == cur[1] and temp.year == cur[2]:
             return i
+
 
 if __name__ == "__main__":
 

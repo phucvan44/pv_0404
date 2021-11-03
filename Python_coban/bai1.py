@@ -6,6 +6,7 @@ def is_prime(n):
             return False 
     return True
 
+
 if __name__ == "__main__":
     print("Nhập số n: ",end="")
     n = int(input())

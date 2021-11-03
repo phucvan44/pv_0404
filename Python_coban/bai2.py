@@ -4,8 +4,10 @@ def gcd(a,b):
         return a
     return gcd(b,a%b)
 
+
 def lcm(a,b):
     return a*b/gcd(a,b)
+
 
 if __name__ == "__main__":
     print("Nhập số a: ",end="")
