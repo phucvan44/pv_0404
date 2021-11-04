@@ -1,144 +1,140 @@
 import numpy as np 
-import pandas as pd 
-import matplotlib.pyplot as plt 
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 class Linear_Regression:
 
-    def __init__(self):
-        self.theta = []       # Theta of gradient descent
-        self.X_label = []     # X_label for plot model after training data
-        self.y_test = []      # y_test for compare with y_predict
-        self.y_predict = []   # y_predict is predicted value
-        self.loss_his = []    # loss_his is the loss list
+	
+	def __init__(self):
+		"""
+			@theta: theta of gradient descent
+			@loss_his: list loss of model
+		"""
+		self.theta = []
+		self.loss_his = []
 
 
-    def plot_data(self, X, y):
-        plt.plot(X, y, 'go')
-        plt.title("Initial data")
-        plt.xlabel("X")
-        plt.ylabel("y")
-        plt.show()
+	def plot_data(self, X, y, title):
+		plt.plot(X, y, 'ro')
+		plt.title(title)
+		plt.xlabel("X")
+		plt.ylabel("y")
+		plt.show()
 
 
-    def plot_model(self):
-        plt.plot(self.X_label, self.y_test, 'go', self.X_label, self.y_predict)
-        plt.title("Training data")
-        plt.xlabel("X")
-        plt.ylabel("y")
-        plt.show()
+	def plot_model(self, X_test, y_test, y_predict):
+		X_test = X_test[::, :-1]
+		plt.plot(X_test, y_test, 'ro', X_test, y_predict, 'b')
+		plt.title("Train Model")
+		plt.xlabel("X")
+		plt.ylabel("y")
+		plt.show()
 
 
-    def plot_loss(self):
-        x_label = np.arange(len(self.loss_his))
-        plt.plot(x_label, self.loss_his, 'r')
-        plt.title("Value of loss")
-        plt.xlabel("X")
-        plt.ylabel("y")
-        plt.show()
+	def train_test_split(self, X, y, test_size):
+		size_data = X.shape[0]
+
+		# Reshape X, y = (size_data, 1)
+		X = X.reshape(size_data, 1)
+		y = y.reshape(size_data, 1)
+
+		#Concatenate X with one_matrix
+		X = np.concatenate((X, np.ones_like(X)), axis = 1)
+
+		# Calculate limit of data
+		limit = int(size_data*(1 - test_size))
+
+		# Split X_train, y_train
+		X_train = X[:limit, ::]
+		y_train = y[:limit, ::]
+
+		# Split X_test, y_test
+		X_test = X[limit:, ::]
+		y_test = y[limit:, ::]
+
+		return (X_train, X_test, y_train, y_test)
 
 
-    def train_test_split(self, X, y):
-        
-        X = X.reshape(len(X), 1)
-        y = y.reshape(len(y), 1)
+	def gradient_descent(self, X, y):
+		"""
+			delta_f_theta: derivative of f(theta) with respect to theta
+		"""
 
-        limit = int(len(X)*8/10)
-
-        X_train = X[:limit, ::]
-        y_train = y[:limit, ::]
-
-        X_test = X[limit:, ::]
-        y_test = y[limit:, ::]
-
-        X_label = X_test 
-        self.X_label = X_label
-        self.y_test = y_test
-
-        # Concatenate X with 0
-        ones_matrix_train = np.ones_like(X_train)
-        ones_matrix_test = np.ones_like(X_test)
-        X_train = np.concatenate((X_train, ones_matrix_train), axis = 1)
-        X_test = np.concatenate((X_test, ones_matrix_test), axis = 1)
-
-        return (X_train, X_test, y_train, y_test)
+		size_data = X.shape[0]
+		delta_f_theta = (1/size_data)*X.T.dot(X.dot(self.theta) - y)
+		return delta_f_theta.reshape(self.theta.shape)
 
 
-    def gradient_descent(self, X, y):
-        n_data = X.shape[0]
-        new_theta = (1/n_data)*X.T.dot(X.dot(self.theta) - y)
-        return new_theta.reshape(self.theta.shape)
-
-    
-    def loss_function(self, X, y):
-        n_data = X.shape[0]
-        loss = 1/(2*n_data)*np.sum((X.dot(self.theta) - y)**2)
-        return loss
-    
-
-    def predict(self, X):
-        predict_value = X.dot(self.theta) # Shape of predict value is: (1,)
-        self.y_predict.append(predict_value[0])
-        return predict_value[0]
+	def loss_function(self, X, y):
+		size_data = X.shape[0]
+		loss_value = 1/(2*size_data)*np.sum((X.dot(self.theta) - y)**2)
+		return loss_value
 
 
-    def train(self, X, y, learning_rate, iter):
-
-        # Initial theta of gradient descent
-        self.theta = np.random.normal(size = 2).reshape([2, 1])
-
-        for i in range(iter):
-            new_theta = self.gradient_descent(X, y)
-            self.theta -= new_theta*learning_rate
-            loss = self.loss_function(X, y)
-            self.loss_his.append(loss)
+	def predict(self, X_test):
+		y_predict = X_test.dot(self.theta)
+		return y_predict
 
 
-    def get_loss(self):
-        return self.loss_his[-1]
+	def train(self, X, y, learning_rate, iter):
+		# Initial theta of gradient descent
+		self.theta = np.random.normal(size = X.shape[1]).reshape(X.shape[1], 1)
+
+		# Training model
+		for i in range(iter):
+			delta_f_theta = self.gradient_descent(X, y)
+			self.theta -= learning_rate*delta_f_theta 
+			loss_value = self.loss_function(X, y)
+			self.loss_his.append(loss_value)
 
 
-    def compare_model(self):
-        print("{:<30} {:<30}".format("Giá trị thực tế", "Giá trị dự đoán"))
-        print('-'*60)
-        
-        for i in range(len(self.y_test)):
-            print("{:<30} {:<30}".format(self.y_test[i][0], self.y_predict[i]))
-            print('-'*60)
+	def compare_model(self, y_test, y_predict):
+		print("{:<30} {:<30}".format("Giá trị thực tế", "Giá trị dự đoán"))
+		print('-'*60)
+		for i in range(len(y_test)):
+			print("{:<30} {:<30}".format(y_test[i][0], y_predict[i][0]))
+			print('-'*60)
+
+
+	def get_loss(self):
+		return self.loss_his
 
 
 if __name__ == "__main__":
+	data = pd.read_csv("linear_regression.csv")
 
-    data = pd.read_csv("linear_regression.csv")
-    
-    X = data.values[::, 0]
-    y = data.values[::, 1]
+	X = data.values[::, 0]
+	y = data.values[::, 1]
 
-    lr = Linear_Regression()
+	lr = Linear_Regression()
 
-    # plot data
-    #lr.plot_data(X, y) -- Code
+	# Show data 
+	#lr.plot_data(X, y, "Initial Data")
 
-    X_train, X_test, y_train, y_test = lr.train_test_split(X, y)
+	# Train test split
+	X_train, X_test, y_train, y_test = lr.train_test_split(X, y, 0.2)
 
-    learning_rate = 0.02
-    iter = 10000
+	learning_rate = 0.02
+	iter = 10000
 
-    lr.train(X_train, y_train, learning_rate, iter)
+	# Train model
+	lr.train(X_train, y_train, learning_rate, iter)
 
-    n_data = X_test.shape[0]
+	# Predict values
+	y_predict = lr.predict(X_test)
+	#print(y_predict)
 
-    for i in range(n_data):
-        predict_value = lr.predict(X_test[i])
-    
-    print("Loss value: ",lr.get_loss())
+	# Compare y_test with y_predict
+	#lr.compare_model(y_test, y_predict)
 
-    # Compare y_predict with y_test
-    #lr.compare_model()
+	# Loss history
+	loss_his = lr.get_loss()
+	print(loss_his[-1])
 
-    # Theta of model
-    print("Theta of gradient descent")
-    print(lr.theta)
+	# Show loss
+	x_axis = np.arange(len(loss_his))
+	#lr.plot_data(x_axis, loss_his)
 
-    lr.plot_model()
-
+	# Visualize 
+	lr.plot_model(X_test, y_test, y_predict)
