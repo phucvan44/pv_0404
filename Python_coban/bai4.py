@@ -1,4 +1,4 @@
-class date:
+class Date:
     def __init__(self, day, month, year, status):
         self.day = day
         self.month = month
@@ -24,7 +24,7 @@ def get_list_date():
         text_line = text_line.split(":")
         text_line[1] = text_line[1].split("\n")[0]
         day,month,year = text_line[0].split("/")
-        cur_date = date(day,month,year,list_key[text_line[1]])
+        cur_date = Date(day,month,year,list_key[text_line[1]])
         list_date.append(cur_date)
     f.close()
     return list_date
@@ -41,9 +41,7 @@ if __name__ == "__main__":
 
     list_key = get_list_key()
     list_date = get_list_date()
-
     list_check = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
-
 
     print("Nhập thứ ngày tháng năm: ",end="")
     line_date = str(input())
