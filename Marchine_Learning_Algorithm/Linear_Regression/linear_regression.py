@@ -8,8 +8,8 @@ class Linear_Regression:
 	
 	def __init__(self):
 		"""
-			@theta: theta of gradient descent
-			@loss_his: list loss of model
+			theta: theta of gradient descent
+			loss_his: list loss of model
 		"""
 		self.theta = []
 		self.loss_his = []
