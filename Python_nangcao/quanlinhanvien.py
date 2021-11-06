@@ -1,16 +1,31 @@
 from datetime import datetime
 
-class Employee_Info:
-	def __init__(self, **kwargs):
-		for employee_key, employee_value in kwargs.items():
-			setattr(self, employee_key, employee_value)
+
+class Basic_Info:
+	def __init__(self, id, name, birth, position, skill, start_year):
+		self.name = name 
+		self.birth = birth
+		self.position = position
+		self.skill = skill
+		self.start_year = start_year 
+		self.id = id 
+		self.exp = datetime.now().date().year - start_year
+
+
+class Advance_Info(Basic_Info):
+	def __init__(self, id, name, birth, position, skill, start_year, language, project):
+		Basic_Info.__init__(self, id, name, birth, position, skill, start_year)
+		self.language = language
+		self.project = project
 
 
 class Learn_Employee:
 	list_employee = []
 
+
 	def add_employee(self, info_employee):
 		self.list_employee = info_employee
+
 
 	def get_employee(self, id):
 		employee = self.list_employee[id]
@@ -26,6 +41,7 @@ class Learn_Employee:
 		""")
 		print("-"*50)
 	
+	
 	def query(self, employee1, employee2):
 		if len(employee1.skill) == len(employee2.skill):
 			if employee1.exp == employee2.exp:
@@ -33,6 +49,7 @@ class Learn_Employee:
 			return employee1.exp < employee2.exp 
 		return len(employee1.skill) < len(employee2.skill)
 	
+
 	def get_employee_for_learn(self):
 
 		employees = self.list_employee.copy()
@@ -46,12 +63,15 @@ class Learn_Employee:
 		for i in range(min(3, len(employees))):
 			self.get_employee(employees[i].id)
 
+
 class Project_Employee:
 	list_employee = []
 
+	
 	def add_employee(self, info_employee):
 		self.list_employee = info_employee
 
+	
 	def get_employee(self, id):
 		employee = self.list_employee[id]
 		
@@ -69,6 +89,7 @@ class Project_Employee:
 		""")
 		print("-"*50)
 	
+	
 	def get_employee_python_dev(self):
 		employees = []
 
@@ -81,6 +102,7 @@ class Project_Employee:
 		for employee in employees:
 			self.get_employee(employee.id)
 
+	
 	def get_employee_exp(self):
 		employees = []
 
@@ -91,6 +113,7 @@ class Project_Employee:
 		for employee in employees:
 			self.get_employee(employee.id)
 	
+
 def control(learn_emp, project_emp):
 	
 	print(f"""
@@ -109,7 +132,6 @@ def control(learn_emp, project_emp):
 
 	if n < 1 or n > 6:
 		control(learn_emp, project_emp)
-	
 	if n == 1:
 		print("Nhập id nhân viên muốn xem (nhập 0 để xem tất cả): ", end="")
 		id_employee = int(input())
@@ -125,11 +147,9 @@ def control(learn_emp, project_emp):
 			learn_emp.get_employee(id_employee-1)
 
 		control(learn_emp, project_emp)
-
 	elif n == 2:
 		learn_emp.get_employee_for_learn()
 		control(learn_emp, project_emp)
-	
 	elif n == 3:
 		print("Nhập id nhân sự muốn xem (nhập 0 để xem tất cả): ", end="")
 		id_employee = int(input())
@@ -145,11 +165,9 @@ def control(learn_emp, project_emp):
 			project_emp.get_employee(id_employee-1)
 
 		control(learn_emp, project_emp)
-
 	elif n == 4:
 		project_emp.get_employee_python_dev()
 		control(learn_emp, project_emp)
-	
 	elif n == 5:
 		project_emp.get_employee_exp()
 		control(learn_emp, project_emp)
@@ -159,27 +177,23 @@ if __name__ == "__main__":
 	learn_emp = Learn_Employee() # Employee for learn
 	project_emp = Project_Employee() # Employee for project
 
-	current_year = datetime.now().date().year
-
 	# Nhập thông tin nhân viên
-
-	emp1 = Employee_Info(id=0, name="Nguyen Van A", birth =2000, position="Dev", skill=["math", "dev"], start_year=2010, exp =current_year-2010)
-	emp2 = Employee_Info(id=1, name="Nguyen Van B", birth =1900, position="Dev", skill=["math", "dev"], start_year=1950, exp =current_year-1950)
-	emp3 = Employee_Info(id=2, name="Nguyen Van C", birth =1950, position="Dev", skill=["math", "dev", "programing"], start_year=1970, exp =current_year-1970)
-	emp4 = Employee_Info(id=3, name="Nguyen Van D", birth =2009, position="Dev", skill=["math", "dev"], start_year=2019, exp =current_year-2019)
-	emp5 = Employee_Info(id=4, name="Nguyen Van E", birth =2015, position="Dev", skill=["math", "dev"], start_year=2020, exp =current_year-2020)
-	emp6 = Employee_Info(id=5, name="Nguyen Van F", birth =1969, position="Dev", skill=["math", "dev", "hack", "security"], start_year=1980, exp =current_year-1980)
+	emp1 = Basic_Info(0, "Nguyen Van A", 2000, "Dev", ["math", "dev"], 2010)
+	emp2 = Basic_Info(1, "Nguyen Van B", 1900, "Dev", ["math", "dev"], 1950)
+	emp3 = Basic_Info(2, "Nguyen Van C", 1950, "Dev", ["math", "dev", "programing"], 1970)
+	emp4 = Basic_Info(3, "Nguyen Van D", 2009, "Dev", ["math", "dev"], 2019)
+	emp5 = Basic_Info(4, "Nguyen Van E", 2015, "Dev", ["math", "dev"], 2020)
+	emp6 = Basic_Info(5, "Nguyen Van F", 1969, "Dev", ["math", "dev", "hack", "security"], 1980)
 
 	learn_emp.add_employee([emp1, emp2, emp3, emp4, emp5, emp6])
 
 	# Nhập thông tin nhân sự	
-
-	emp1 = Employee_Info(id=0, name="Nguyen Van A", birth =2000, position="Dev", skill=["math", "dev"], start_year=2010, exp =current_year-2010, language=["Python", "C++", "Java"], project=["a", "b", "c"])
-	emp2 = Employee_Info(id=1, name="Nguyen Van B", birth =1900, position="Dev", skill=["math", "dev"], start_year=1950, exp =current_year-1950, language=["Python", "Java"], project=["b", "c"])
-	emp3 = Employee_Info(id=2, name="Nguyen Van C", birth =1950, position="Dev", skill=["math", "dev", "programing"], start_year=1970, exp =current_year-1970, language=["Python", "C++", "Java"], project=["a", "b", "c", "d", "e", "f"])
-	emp4 = Employee_Info(id=3, name="Nguyen Van D", birth =2009, position="Dev", skill=["math", "dev"], start_year=2019, exp =current_year-2019, language=["Java"], project=["a"])
-	emp5 = Employee_Info(id=4, name="Nguyen Van E", birth =2015, position="Dev", skill=["math", "dev"], start_year=2020, exp =current_year-2020, language=["C++", "Java"], project=["a", "b"])
-	emp6 = Employee_Info(id=5, name="Nguyen Van F", birth =1969, position="Dev", skill=["math", "dev", "hack", "security"], start_year=1980, exp =current_year-1980, language=["Python", "C++", "Java"], project=["a", "b", "c", "e", "f", "g", "h"])
+	emp1 = Advance_Info(0, "Nguyen Van A", 2000, "Dev", ["math", "dev"], 2010, ["Python", "C++", "Java"], ["a", "b", "c"])
+	emp2 = Advance_Info(1, "Nguyen Van B", 1900, "Dev", ["math", "dev"], 1950, ["Python", "Java"], ["b", "c"])
+	emp3 = Advance_Info(2, "Nguyen Van C", 1950, "Dev", ["math", "dev", "programing"], 1970, ["Python", "C++", "Java"], ["a", "b", "c", "d", "e", "f"])
+	emp4 = Advance_Info(3, "Nguyen Van D", 2009, "Dev", ["math", "dev"], 2019, ["Java"], ["a"])
+	emp5 = Advance_Info(4, "Nguyen Van E", 2015, "Dev", ["math", "dev"], 2020, ["C++", "Java"], ["a", "b"])
+	emp6 = Advance_Info(5, "Nguyen Van F", 1969, "Dev", ["math", "dev", "hack", "security"], 1980, ["Python", "C++", "Java"], ["a", "b", "c", "e", "f", "g", "h"])
 
 	project_emp.add_employee([emp1, emp2, emp3, emp4, emp5, emp6])
 
