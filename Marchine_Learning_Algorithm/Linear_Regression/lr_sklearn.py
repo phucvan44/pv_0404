@@ -6,9 +6,9 @@ from sklearn.linear_model import LinearRegression
 
 
 def loss_function(X, y, theta):
-    n_data = X.shape[0]
-    loss = 1/(2*n_data)*np.sum((X.dot(theta) - y)**2)
-    return loss
+    size_data = X.shape[0]
+    loss_value = 1/(2*size_data)*np.sum((X.dot(theta) - y)**2)
+    return loss_value
 
 
 if __name__ == "__main__":

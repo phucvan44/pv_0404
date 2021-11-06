@@ -35,10 +35,6 @@ class Linear_Regression:
 	def train_test_split(self, X, y, test_size):
 		size_data = X.shape[0]
 
-		# Reshape X, y = (size_data, 1)
-		X = X.reshape(size_data, 1)
-		y = y.reshape(size_data, 1)
-
 		#Concatenate X with one_matrix
 		X = np.concatenate((X, np.ones_like(X)), axis = 1)
 
@@ -104,8 +100,8 @@ class Linear_Regression:
 if __name__ == "__main__":
 	data = pd.read_csv("linear_regression.csv")
 
-	X = data.values[::, 0]
-	y = data.values[::, 1]
+	X = data.values[::, 0].reshape(-1, 1)
+	y = data.values[::, 1].reshape(-1, 1)
 
 	lr = Linear_Regression()
 
