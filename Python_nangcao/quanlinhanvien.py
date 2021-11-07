@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class Basic_Info:
+class BasicInfo:
 	def __init__(self, id, name, birth, position, skill, start_year):
 		self.name = name 
 		self.birth = birth
@@ -12,14 +12,14 @@ class Basic_Info:
 		self.exp = datetime.now().date().year - start_year
 
 
-class Advance_Info(Basic_Info):
+class AdvanceInfo(BasicInfo):
 	def __init__(self, id, name, birth, position, skill, start_year, language, project):
-		Basic_Info.__init__(self, id, name, birth, position, skill, start_year)
+		BasicInfo.__init__(self, id, name, birth, position, skill, start_year)
 		self.language = language
 		self.project = project
 
 
-class Learn_Employee:
+class LearnEmployee:
 	list_employee = []
 
 
@@ -64,7 +64,7 @@ class Learn_Employee:
 			self.get_employee(employees[i].id)
 
 
-class Project_Employee:
+class ProjectEmployee:
 	list_employee = []
 
 	
@@ -174,26 +174,26 @@ def control(learn_emp, project_emp):
 	
 
 if __name__ == "__main__":
-	learn_emp = Learn_Employee() # Employee for learn
-	project_emp = Project_Employee() # Employee for project
+	learn_emp = LearnEmployee() # Employee for learn
+	project_emp = ProjectEmployee() # Employee for project
 
 	# Nhập thông tin nhân viên
-	emp1 = Basic_Info(0, "Nguyen Van A", 2000, "Dev", ["math", "dev"], 2010)
-	emp2 = Basic_Info(1, "Nguyen Van B", 1900, "Dev", ["math", "dev"], 1950)
-	emp3 = Basic_Info(2, "Nguyen Van C", 1950, "Dev", ["math", "dev", "programing"], 1970)
-	emp4 = Basic_Info(3, "Nguyen Van D", 2009, "Dev", ["math", "dev"], 2019)
-	emp5 = Basic_Info(4, "Nguyen Van E", 2015, "Dev", ["math", "dev"], 2020)
-	emp6 = Basic_Info(5, "Nguyen Van F", 1969, "Dev", ["math", "dev", "hack", "security"], 1980)
+	emp1 = BasicInfo(0, "Nguyen Van A", 2000, "Dev", ["math", "dev"], 2010)
+	emp2 = BasicInfo(1, "Nguyen Van B", 1900, "Dev", ["math", "dev"], 1950)
+	emp3 = BasicInfo(2, "Nguyen Van C", 1950, "Dev", ["math", "dev", "programing"], 1970)
+	emp4 = BasicInfo(3, "Nguyen Van D", 2009, "Dev", ["math", "dev"], 2019)
+	emp5 = BasicInfo(4, "Nguyen Van E", 2015, "Dev", ["math", "dev"], 2020)
+	emp6 = BasicInfo(5, "Nguyen Van F", 1969, "Dev", ["math", "dev", "hack", "security"], 1980)
 
 	learn_emp.add_employee([emp1, emp2, emp3, emp4, emp5, emp6])
 
 	# Nhập thông tin nhân sự	
-	emp1 = Advance_Info(0, "Nguyen Van A", 2000, "Dev", ["math", "dev"], 2010, ["Python", "C++", "Java"], ["a", "b", "c"])
-	emp2 = Advance_Info(1, "Nguyen Van B", 1900, "Dev", ["math", "dev"], 1950, ["Python", "Java"], ["b", "c"])
-	emp3 = Advance_Info(2, "Nguyen Van C", 1950, "Dev", ["math", "dev", "programing"], 1970, ["Python", "C++", "Java"], ["a", "b", "c", "d", "e", "f"])
-	emp4 = Advance_Info(3, "Nguyen Van D", 2009, "Dev", ["math", "dev"], 2019, ["Java"], ["a"])
-	emp5 = Advance_Info(4, "Nguyen Van E", 2015, "Dev", ["math", "dev"], 2020, ["C++", "Java"], ["a", "b"])
-	emp6 = Advance_Info(5, "Nguyen Van F", 1969, "Dev", ["math", "dev", "hack", "security"], 1980, ["Python", "C++", "Java"], ["a", "b", "c", "e", "f", "g", "h"])
+	emp1 = AdvanceInfo(0, "Nguyen Van A", 2000, "Dev", ["math", "dev"], 2010, ["Python", "C++", "Java"], ["a", "b", "c"])
+	emp2 = AdvanceInfo(1, "Nguyen Van B", 1900, "Dev", ["math", "dev"], 1950, ["Python", "Java"], ["b", "c"])
+	emp3 = AdvanceInfo(2, "Nguyen Van C", 1950, "Dev", ["math", "dev", "programing"], 1970, ["Python", "C++", "Java"], ["a", "b", "c", "d", "e", "f"])
+	emp4 = AdvanceInfo(3, "Nguyen Van D", 2009, "Dev", ["math", "dev"], 2019, ["Java"], ["a"])
+	emp5 = AdvanceInfo(4, "Nguyen Van E", 2015, "Dev", ["math", "dev"], 2020, ["C++", "Java"], ["a", "b"])
+	emp6 = AdvanceInfo(5, "Nguyen Van F", 1969, "Dev", ["math", "dev", "hack", "security"], 1980, ["Python", "C++", "Java"], ["a", "b", "c", "e", "f", "g", "h"])
 
 	project_emp.add_employee([emp1, emp2, emp3, emp4, emp5, emp6])
 
