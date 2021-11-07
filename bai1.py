@@ -8,42 +8,42 @@ def prime(n):
 	return all(n%i for i in range(3, int(sqrt(n) + 1), 2))
 
 
-def taskA():
-	A = np.random.randint(10, size = (3, 4))
-	B = np.random.randint(10, size = (3, 4))
-	print("A:\n", A, "\nB:\n", B)
+def task_a():
+	a = np.random.randint(10, size = (3, 4))
+	b = np.random.randint(10, size = (3, 4))
+	print("A:\n", a, "\nB:\n", b)
 
 
-def taskB():
-	A = np.random.randint(10, size = (4, 4))
-	B = ~(A%2) + 2
-	print("A:\n", A, "\nB:\n", B)
+def task_b():
+	a = np.random.randint(10, size = (4, 4))
+	b = ~(a%2) + 2
+	print("A:\n", a, "\nB:\n", b)
 
 
-def taskC():
-	A = np.random.randint(10, size = (5, 5))
-	print("A:\n", A)
+def task_c():
+	a = np.random.randint(10, size = (5, 5))
+	print("A:\n", a)
 
-	A = np.fliplr(A)
+	a = np.fliplr(a)
 	func = np.vectorize(prime)
-	A_prime_diagonal = func(A.diagonal())
-	count_prime_diagonal = len(np.extract(A_prime_diagonal, A))
-	print("A flip left to right: \n", A, "\nCount prime in diagonal: ", count_prime_diagonal)
+	a_prime_diagonal = func(a.diagonal())
+	count_prime_diagonal = len(np.extract(a_prime_diagonal, a))
+	print("A flip left to right: \n", a, "\nCount prime in diagonal: ", count_prime_diagonal)
 
 
 if __name__ == "__main__":
 	# A
 	print("Task A:\n")
-	taskA()
+	task_a()
 	print("\nEnd task A\n")
 
 	#B
 	print("Task B:\n")
-	taskB()
+	task_b()
 	print("\nEnd task B\n")
 
 	#C
 	print("Task C:\n")
-	taskC()
+	task_c()
 	print("\nEnd task C\n")
 	

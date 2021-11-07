@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def taskA():
+def task_a():
 	x1 = np.array([2,3,4,5])
 	y1 = np.array([6,2,3,9])
 	x2 = np.array([1,2,3,4])
@@ -15,7 +15,7 @@ def taskA():
 	plt.show()
 
 
-def taskB():
+def task_b():
 	bot_label = np.arange(1,5)
 	value_1 = np.array([50,100,200,15])
 	value_2 = np.array([90,30,25,40])
@@ -33,7 +33,7 @@ def taskB():
 	plt.show()
 
 
-def taskC():
+def task_c():
 	fig, ax = plt.subplots(2, 2)
 
 	ax[0 ,0].plot([1,2,3,4],[0,4.0,3.0,8.0],color='green')
@@ -56,15 +56,15 @@ def taskC():
 if __name__ == "__main__":
 	# A
 	print("Task A:\n")
-	taskA()
+	task_a()
 	print("\nEnd task A\n")
 
 	#B
 	print("Task B:\n")
-	taskB()
+	task_b()
 	print("\nEnd task B\n")
 
 	#C
 	print("Task C:\n")
-	taskC()
+	task_c()
 	print("\nEnd task C\n")

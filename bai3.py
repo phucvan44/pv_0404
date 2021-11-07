@@ -7,15 +7,15 @@ def read_csv():
 	return data 
 
 
-def taskA(data):
+def task_a(data):
 	print(data[:50])
 
 
-def taskB(data):
+def task_b(data):
 	print(data.iloc[:, 1:4])
 
 
-def taskC(data):
+def task_c(data):
 	active = data.values[:, 4]
 	
 	dic = {}
@@ -30,15 +30,15 @@ if __name__ == "__main__":
 	
 	# A
 	print("Task A:\n")
-	taskA(data)
+	task_a(data)
 	print("\nEnd task A\n")
 
 	#B
 	print("Task B:\n")
-	taskB(data)
+	task_b(data)
 	print("\nEnd task B\n")
 
 	#C
 	print("Task C:\n")
-	taskC(data)
+	task_c(data)
 	print("\nEnd task C\n")
