@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 
 def read_csv():
@@ -7,23 +8,15 @@ def read_csv():
 
 
 def taskA(data):
-	A = data.values[:50, ::]
-	print(A)
+	print(data[:50])
 
 
 def taskB(data):
-	date = data.values[::, 1]
-	print("Date:\n",date, end = "\n\n")
-
-	calories = data.values[::, 2]
-	print("Calories:\n", calories, end = "\n\n")
-
-	distance = data.values[::, 3]
-	print("Distance:\n", distance, end = "\n\n")
+	print(data.iloc[:, 1:4])
 
 
 def taskC(data):
-	active = data.values[::, 4]
+	active = data.values[:, 4]
 	
 	dic = {}
 	for i in range(len(active)):

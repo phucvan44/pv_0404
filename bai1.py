@@ -2,10 +2,6 @@ import numpy as np
 from math import sqrt
 
 
-def gen_array(lim, sizeX, sizeY):
-	return np.random.randint(lim, size = (sizeX, sizeY))
-
-
 def prime(n):
 	if (n%2 == 0 and n > 2) or (n < 2):
 		return False 
@@ -13,26 +9,26 @@ def prime(n):
 
 
 def taskA():
-	A = gen_array(10, 3, 4)
-	B = gen_array(10, 3, 4)
-	print("A:\n", A, "\nB", B)
+	A = np.random.randint(10, size = (3, 4))
+	B = np.random.randint(10, size = (3, 4))
+	print("A:\n", A, "\nB:\n", B)
 
 
 def taskB():
-	A = gen_array(10, 4, 4)
+	A = np.random.randint(10, size = (4, 4))
 	B = ~(A%2) + 2
-	print("A:\n", A, "\nB", B)
+	print("A:\n", A, "\nB:\n", B)
 
 
 def taskC():
-	A = gen_array(10, 5, 5)
+	A = np.random.randint(10, size = (5, 5))
 	print("A:\n", A)
 
 	A = np.fliplr(A)
 	func = np.vectorize(prime)
 	A_prime_diagonal = func(A.diagonal())
 	count_prime_diagonal = len(np.extract(A_prime_diagonal, A))
-	print("A flip left to right: \n", A, "\n", count_prime_diagonal)
+	print("A flip left to right: \n", A, "\nCount prime in diagonal: ", count_prime_diagonal)
 
 
 if __name__ == "__main__":
