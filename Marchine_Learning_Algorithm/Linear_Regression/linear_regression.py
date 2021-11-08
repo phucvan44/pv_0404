@@ -39,7 +39,7 @@ class LinearRegression:
 		X = np.concatenate((X, np.ones_like(X)), axis = 1)
 
 		# Calculate limit of data
-		limit = int(size_data*(1 - test_size))
+		limit = int(size_data * (1 - test_size))
 
 		# Split X_train, y_train
 		X_train = X[:limit, ::]
@@ -58,27 +58,27 @@ class LinearRegression:
 		"""
 
 		size_data = X.shape[0]
-		delta_f_theta = (1/size_data)*X.T.dot(X@self.theta - y)
+		delta_f_theta = (1 / size_data) * X.T @ (X @ self.theta - y)
 		return delta_f_theta.reshape(self.theta.shape)
 
 
 	def loss_function(self, X, y):
 		size_data = X.shape[0]
-		loss_value = 1/(2*size_data)*np.sum((X.dot(self.theta) - y)**2)
+		loss_value = 1 / (2 * size_data) * np.sum((X @ self.theta - y)**2)
 		return loss_value
 
 
 	def predict(self, X_test):
-		y_predict = X_test@self.theta
+		y_predict = X_test @ self.theta
 		return y_predict
 
 
 	def print_progress(self, index, total):
-		percent = ("{0:.1f}").format(100 *((index+1)/total))
-		filledLength = 50*index//total
-		bar = '='*filledLength + '-'*(50 - filledLength - 1)
+		percent = ("{0:.1f}").format(100 * ((index + 1) / total))
+		filledLength = 50 * index // total
+		bar = '=' * filledLength + '-' * (50 - filledLength - 1)
 		print('\rTraining: |%s| %s%%' % (bar, percent), end = '\r')
-		if index == total-1:
+		if index == total - 1:
 			print()
 
 
