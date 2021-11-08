@@ -95,7 +95,7 @@ class LinearRegression:
 			self.loss_his.append(loss_value)
 
 
-	def compare_model(self, y_test, y_predict):
+	def compare_value(self, y_test, y_predict):
 		print("{:<30} {:<30}".format("Giá trị thực tế", "Giá trị dự đoán"))
 		print('-'*60)
 		for i in range(len(y_test)):
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     #print(y_predict)
 
     # Compare y_test with y_predict
-    #model.compare_model(y_test, y_predict)
+    #model.compare_value(y_test, y_predict)
 
     # Loss history
     loss_his = model.get_loss()
