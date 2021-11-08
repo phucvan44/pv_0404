@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression
 
 def loss_function(X, y, theta):
     size_data = X.shape[0]
-    loss_value = 1/(2*size_data)*np.sum((X.dot(theta) - y)**2)
+    loss_value = 1/(2*size_data)*np.sum((X@theta - y)**2)
     return loss_value
 
 
@@ -19,10 +19,10 @@ if __name__ == "__main__":
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 
-    LR = LinearRegression()
-    LR.fit(X_train,y_train)
+    lr = LinearRegression()
+    lr.fit(X_train,y_train)
     
-    theta = np.array([LR.coef_[0], LR.intercept_])
+    theta = np.array([lr.coef_[0], lr.intercept_])
     ones = np.ones_like(X_train)
     X_train = np.concatenate((X_train, ones), axis = 1)
 

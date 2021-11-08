@@ -113,34 +113,34 @@ if __name__ == "__main__":
     X = data.values[::, 0].reshape(-1, 1)
     y = data.values[::, 1].reshape(-1, 1)
     
-    lr = LinearRegression()
+    model = LinearRegression()
 
     # Show data 
-    #lr.plot_data(X, y, "Initial Data")
+    #model.plot_data(X, y, "Initial Data")
 
     # Train test split
-    X_train, X_test, y_train, y_test = lr.train_test_split(X, y, 0.2)
+    X_train, X_test, y_train, y_test = model.train_test_split(X, y, 0.2)
 
-    learning_rate = 1e-4
+    learning_rate = 1e-2
     epoch = 100000
 
     # Train model
-    lr.train(X_train, y_train, learning_rate, epoch)
+    model.train(X_train, y_train, learning_rate, epoch)
 
     # Predict values
-    y_predict = lr.predict(X_test)
+    y_predict = model.predict(X_test)
     #print(y_predict)
 
     # Compare y_test with y_predict
-    #lr.compare_model(y_test, y_predict)
+    #model.compare_model(y_test, y_predict)
 
     # Loss history
-    loss_his = lr.get_loss()
+    loss_his = model.get_loss()
     print("Loss:", loss_his[-1])
 
     # Show loss
     x_axis = np.arange(len(loss_his))
-    #lr.plot_data(x_axis, loss_his)
+    #model.plot_data(x_axis, loss_his)
 
     # Visualize 
-    lr.plot_model(X_test, y_test, y_predict)
+    model.plot_model(X_test, y_test, y_predict)
