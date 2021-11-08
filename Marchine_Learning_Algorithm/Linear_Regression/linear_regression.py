@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-class Linear_Regression:
+class LinearRegression:
 
 	
 	def __init__(self):
@@ -58,7 +58,7 @@ class Linear_Regression:
 		"""
 
 		size_data = X.shape[0]
-		delta_f_theta = (1/size_data)*X.T.dot(X.dot(self.theta) - y)
+		delta_f_theta = (1/size_data)*X.T.dot(X@self.theta - y)
 		return delta_f_theta.reshape(self.theta.shape)
 
 
@@ -69,16 +69,26 @@ class Linear_Regression:
 
 
 	def predict(self, X_test):
-		y_predict = X_test.dot(self.theta)
+		y_predict = X_test@self.theta
 		return y_predict
 
 
-	def train(self, X, y, learning_rate, iter):
+	def print_progress(self, index, total):
+		percent = ("{0:.1f}").format(100 *((index+1)/total))
+		filledLength = 50*index//total
+		bar = '='*filledLength + '-'*(50 - filledLength - 1)
+		print('\rTraining: |%s| %s%%' % (bar, percent), end = '\r')
+		if index == total-1:
+			print()
+
+
+	def train(self, X, y, learning_rate, epoch):
 		# Initial theta of gradient descent
 		self.theta = np.random.normal(size = X.shape[1]).reshape(X.shape[1], 1)
 
 		# Training model
-		for i in range(iter):
+		for i in range(epoch):
+			self.print_progress(i, epoch)
 			delta_f_theta = self.gradient_descent(X, y)
 			self.theta -= learning_rate*delta_f_theta 
 			loss_value = self.loss_function(X, y)
@@ -98,39 +108,39 @@ class Linear_Regression:
 
 
 if __name__ == "__main__":
-	data = pd.read_csv("linear_regression.csv")
+    data = pd.read_csv("linear_regression.csv")
+    
+    X = data.values[::, 0].reshape(-1, 1)
+    y = data.values[::, 1].reshape(-1, 1)
+    
+    lr = LinearRegression()
 
-	X = data.values[::, 0].reshape(-1, 1)
-	y = data.values[::, 1].reshape(-1, 1)
+    # Show data 
+    #lr.plot_data(X, y, "Initial Data")
 
-	lr = Linear_Regression()
+    # Train test split
+    X_train, X_test, y_train, y_test = lr.train_test_split(X, y, 0.2)
 
-	# Show data 
-	#lr.plot_data(X, y, "Initial Data")
+    learning_rate = 1e-4
+    epoch = 100000
 
-	# Train test split
-	X_train, X_test, y_train, y_test = lr.train_test_split(X, y, 0.2)
+    # Train model
+    lr.train(X_train, y_train, learning_rate, epoch)
 
-	learning_rate = 0.02
-	iter = 10000
+    # Predict values
+    y_predict = lr.predict(X_test)
+    #print(y_predict)
 
-	# Train model
-	lr.train(X_train, y_train, learning_rate, iter)
+    # Compare y_test with y_predict
+    #lr.compare_model(y_test, y_predict)
 
-	# Predict values
-	y_predict = lr.predict(X_test)
-	#print(y_predict)
+    # Loss history
+    loss_his = lr.get_loss()
+    print("Loss:", loss_his[-1])
 
-	# Compare y_test with y_predict
-	#lr.compare_model(y_test, y_predict)
+    # Show loss
+    x_axis = np.arange(len(loss_his))
+    #lr.plot_data(x_axis, loss_his)
 
-	# Loss history
-	loss_his = lr.get_loss()
-	print(loss_his[-1])
-
-	# Show loss
-	x_axis = np.arange(len(loss_his))
-	#lr.plot_data(x_axis, loss_his)
-
-	# Visualize 
-	lr.plot_model(X_test, y_test, y_predict)
+    # Visualize 
+    lr.plot_model(X_test, y_test, y_predict)
