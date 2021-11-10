@@ -90,17 +90,17 @@ class LinearRegression:
 		for i in range(epoch):
 			self.print_progress(i, epoch)
 			delta_f_theta = self.gradient_descent(X, y)
-			self.theta -= learning_rate*delta_f_theta 
+			self.theta -= learning_rate * delta_f_theta 
 			loss_value = self.loss_function(X, y)
 			self.loss_his.append(loss_value)
 
 
 	def compare_value(self, y_test, y_predict):
 		print("{:<30} {:<30}".format("Giá trị thực tế", "Giá trị dự đoán"))
-		print('-'*60)
+		print('-' * 60)
 		for i in range(len(y_test)):
 			print("{:<30} {:<30}".format(y_test[i][0], y_predict[i][0]))
-			print('-'*60)
+			print('-' * 60)
 
 
 	def get_loss(self):
