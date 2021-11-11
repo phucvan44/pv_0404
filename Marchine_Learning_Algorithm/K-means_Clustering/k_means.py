@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
 
@@ -7,11 +7,11 @@ np.random.seed(42)
 
 class KMeans:
 
-	colors = ["red", "blue", "green", "yellow"] # Colors for marker 
+	colors = ["red", "green", "blue", "black"]
 
 
 	def __init__(self, K):
-		self.K = K
+		self.K = K 
 		self.clusters = [[] for _ in range(self.K)]
 		self.centroids = np.array([[30, -60], [40, -10], [20, 10], [-20, 40]])
 
@@ -27,11 +27,11 @@ class KMeans:
 		return np.argmin(distances)
 
 
-	def create_clusters(self, centroids):
+	def get_clusters(self, centroids):
 		clusters = [[] for _ in range(self.K)]
-		for idx, point in enumerate(self.X):
+		for point_idx, point in enumerate(self.X):
 			centroid_idx = self.closest_centroids(point, centroids)
-			clusters[centroid_idx].append(idx)
+			clusters[centroid_idx].append(point_idx)
 		return clusters
 
 
@@ -43,16 +43,16 @@ class KMeans:
 		return centroids
 
 
-	def is_converged(self, centroids_old, centroids):
+	def is_converged(self, centroids, old_centroids):
 		distances = [
-			self.euclidean_distance(centroids_old[idx], centroids[idx]) for idx in range(self.K)
+			self.euclidean_distance(centroids[idx], old_centroids[idx]) for idx in range(self.K)
 		]
 		return sum(distances) == 0
 
 
 	def get_clusters_labels(self, clusters):
 		labels = np.zeros((self.n_points))
-		for cluster_idx, cluster in enumerate(self.clusters):
+		for cluster_idx, cluster in enumerate(clusters):
 			for point_idx in cluster:
 				labels[point_idx] = cluster_idx
 		return labels
@@ -63,24 +63,24 @@ class KMeans:
 		self.n_points, self.n_features = X.shape
 
 		while True:
-			self.clusters = self.create_clusters(self.centroids)
-			centroids_old = self.centroids 
+			self.clusters = self.get_clusters(self.centroids)
+			old_centroids = self.centroids 
 			self.centroids = self.get_centroids(self.clusters)
 
-			if self.is_converged(centroids_old, self.centroids):
+			if self.is_converged(self.centroids, old_centroids):
 				break
 
 		return self.get_clusters_labels(self.clusters)
 
 
 	def plot(self):
-		for idx, cluster in enumerate(self.clusters):
-			point = self.X[cluster].T
-			plt.scatter(*point, marker = 'o', color = self.colors[idx])
-			
-		for idx, centroid in enumerate(self.centroids):
-			plt.scatter(*centroid, marker = 's', color = self.colors[idx])
-		
+		for cluster_idx, cluster in enumerate(self.clusters):
+			points = self.X[cluster].T
+			plt.scatter(*points, marker = 'o', color = self.colors[cluster_idx])
+
+		for centroid_idx, centroid in enumerate(self.centroids):
+			plt.scatter(*centroid, marker = 's', color = self.colors[centroid_idx])
+
 		plt.title("K-Means Clustering")
 		plt.xlabel("X")
 		plt.ylabel("y")
@@ -88,14 +88,13 @@ class KMeans:
 
 
 if __name__ == "__main__":
-	# Read data
 	data = pd.read_csv("position.csv")
+
 	X = data.values
 
 	k = KMeans(K = 4)
-
-	labels_clusters = k.predict(X)
+	labels_predict = k.predict(X)
 
 	print(k.centroids)
 
-	k.plot()	
+	k.plot()
