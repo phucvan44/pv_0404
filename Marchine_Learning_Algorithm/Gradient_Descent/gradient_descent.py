@@ -1,6 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
 import pandas as pd 
+import seaborn as sns
 
 
 class LinearRegression:
@@ -24,11 +25,24 @@ class LinearRegression:
 
 
 	def plot_model(self, X, y, y_predict):
+
 		X = X[::, :-1]
-		plt.plot(X, y, 'ro', X, y_predict, 'b')
+		X = X.reshape(X.shape[0])
+		y = y.reshape(y.shape[0])
+		y_predict = y_predict.reshape(y_predict.shape[0])
+
+		# Plot with matplotlib
+		plt.plot(X, y, 'ro', X, y_predict, 'b-')
 		plt.title("Train Model")
 		plt.xlabel("X")
 		plt.ylabel("y")
+		plt.show()
+
+		# Plot with seaborn
+		sns.set_theme(color_codes = True)
+		df = pd.DataFrame({"Marketing": X, "Sales": y})
+		#print(df)
+		sns.regplot(x="Marketing", y="Sales", data=df).set_title("Plot with seaborns")
 		plt.show()
 
 
@@ -132,7 +146,7 @@ if __name__ == "__main__":
     #print(y_predict)
 
     # Compare y_test with y_predict
-    #model.compare_value(y_test, y_predict)
+    model.compare_value(y_test, y_predict)
 
     # Loss history
     loss_his = model.get_loss()
