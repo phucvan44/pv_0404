@@ -1,81 +1,93 @@
-import numpy as np
+import numpy as np 
+import matplotlib.pyplot as plt 
+import pandas as pd 
 
 
 class Perceptron:
-    def __init__(self, learning_rate=0.01, n_iters=1000):
-        self.lr = learning_rate
-        self.n_iters = n_iters
-        self.activation_func = self._unit_step_func
-        self.weights = None
-        self.bias = None
-
-    def fit(self, X, y):
-        n_samples, n_features = X.shape
-
-        # init parameters
-        self.weights = np.zeros(n_features)
-        self.bias = 0
-        y_ = np.array([1 if i > 0 else 0 for i in y])
-
-        for _ in range(self.n_iters):
-
-            for idx, x_i in enumerate(X):
-
-                linear_output = np.dot(x_i, self.weights) + self.bias
-                y_predicted = self.activation_func(linear_output)
-
-                # Perceptron update rule
-                update = self.lr * (y_[idx] - y_predicted)
-
-                self.weights += update * x_i
-                self.bias += update
-
-    def predict(self, X):
-        linear_output = np.dot(X, self.weights) + self.bias
-        y_predicted = self.activation_func(linear_output)
-        return y_predicted
-
-    def _unit_step_func(self, x):
-        return np.where(x >= 0, 1, 0)
 
 
-# Testing
+	def __init__(self, learning_rate, epoch):
+		self.learning_rate = learning_rate 
+		self.epoch = epoch 
+		self.weights = None
+		self.bias = 0
+
+
+	def print_progress(self, index, total):
+		percent = ("{0:.1f}").format(100 * ((index + 1) / total))
+		filledLength = 50 * index // total
+		bar = '=' * filledLength + '-' * (50 - filledLength - 1)
+		print('\rTraining: |%s| %s%%' % (bar, percent), end = '\r')
+		if index == total - 1:
+			print()
+
+
+	def signum(self, X):
+		return np.where(X >= 0, 1, 0)
+
+
+	def fit(self, X, y):
+		n_points, n_features = X.shape
+
+		# Initial weights
+		self.weights = np.zeros(n_features)
+
+		for i in range(self.epoch):
+			self.print_progress(i, epoch)
+
+			for point_idx, point in enumerate(X):
+				linear_output = (point @ self.weights) + self.bias
+				y_predict = self.signum(linear_output)
+
+				delta = self.learning_rate * (y[point_idx] - y_predict)
+
+				self.weights += delta*point
+				self.bias += delta
+
+
+	def predict(self, X):
+		linear_output = (X @ self.weights) + self.bias 
+		return self.signum(linear_output)
+
+
+	def accuracy(self, y_true, y_predict):
+		n_data = y_true.shape[0]
+		return np.sum(y_true == y_predict)/n_data
+
+
+	def plot(self, X, y):
+		# Plot point 
+		plt.scatter(X[::, 0], X[::, 1], marker = "o", c = y)
+
+		# Divide line
+		X0 = np.amin(X[:: , 0])
+		y0 = (- X0 * self.weights[0] - self.bias) / self.weights[1]
+		X1 = np.amax(X[:: , 0])
+		y1 = (- X1 * self.weights[0] - self.bias) / self.weights[1]
+		plt.plot([X0, X1], [y0, y1], "k")
+
+		plt.title("Perceptrion Learning Algorithm")
+		plt.xlabel("X")
+		plt.ylabel("y")
+
+		plt.show()
+
+
 if __name__ == "__main__":
-    # Imports
-    import matplotlib.pyplot as plt
-    from sklearn.model_selection import train_test_split
-    from sklearn import datasets
+	data = pd.read_csv("PLA.csv")
+	# Shuffle data values
+	np.random.shuffle(data.values)
 
-    def accuracy(y_true, y_pred):
-        accuracy = np.sum(y_true == y_pred) / len(y_true)
-        return accuracy
+	X = data.values[::, :2]
+	y = data.values[::, 2]
 
-    X, y = datasets.make_blobs(
-        n_samples=150, n_features=2, centers=2, cluster_std=1.05, random_state=2
-    )
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=123
-    )
-    p = Perceptron(learning_rate=0.01, n_iters=1000)
-    p.fit(X_train, y_train)
-    predictions = p.predict(X_test)
+	learning_rate = 0.002
+	epoch = 1000
 
-    print("Perceptron classification accuracy", accuracy(y_test, predictions))
+	p = Perceptron(learning_rate, epoch)
+	p.fit(X, y)
 
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    plt.scatter(X_train[:, 0], X_train[:, 1], marker="o", c=y_train)
+	predictions = p.predict(X)
+	print("Accuracy: ", p.accuracy(y, predictions))
 
-    x0_1 = np.amin(X_train[:, 0])
-    x0_2 = np.amax(X_train[:, 0])
-    print(x0_1, x0_2)
-    x1_1 = (-p.weights[0] * x0_1 - p.bias) / p.weights[1]
-    x1_2 = (-p.weights[0] * x0_2 - p.bias) / p.weights[1]
-    print(x1_1, x1_2)
-    plt.plot([x0_1, x0_2], [x1_1, x1_2], "k")
-
-    ymin = np.amin(X_train[:, 1])
-    ymax = np.amax(X_train[:, 1])
-    ax.set_ylim([ymin - 3, ymax + 3])
-
-    plt.show()
+	p.plot(X, y)
