@@ -58,7 +58,7 @@ class KMeans:
 		return labels
 
 
-	def predict(self, X):
+	def train(self, X):
 		self.X = X 
 		self.n_points, self.n_features = X.shape
 
@@ -70,6 +70,8 @@ class KMeans:
 			if self.is_converged(self.centroids, old_centroids):
 				break
 
+	
+	def get_predict_labels(self):
 		return self.get_clusters_labels(self.clusters)
 
 
@@ -93,7 +95,9 @@ if __name__ == "__main__":
 	X = data.values
 
 	k = KMeans(K = 4)
-	labels_predict = k.predict(X)
+	k.train(X)
+
+	labels_predict = k.get_predict_labels()
 
 	print(k.centroids)
 
